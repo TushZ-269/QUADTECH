@@ -72,45 +72,55 @@ Small and medium-sized enterprises face several challenges:
 
 ---
 
-## 📸 Screenshots
-
-(Add your screenshots here using the format below)
 
 
-![App Screenshot](path-to-image)
 
-
----
 
 ## 🚀 Installation & Setup
 
-bash
 # Clone the repository
-git clone https://github.com/your-username/finvisor.git
 
+```
+git clone https://github.com/TushZ-269/QUADTECH.git
+```
 # Navigate into the project folder
-cd finvisor
-
+```
+cd QUADTECH
+```
 # Open index.html in your browser (for frontend-only version)
 
 
-(If backend is added later, add Node installation steps here.)
-
 ---
 
-## 📁 Folder Structure (Suggested)
+## 📁 Folder Structure
 
 
-Finvisor/
+QUADTECH/
 │── index.html
-│── /assets
-│── /css
-│── /js
-│── /components
+
 │── README.md
 
+│
+
+├── assets/
+
+├── css/
+
+├── js/
+
+└── components/
+
+
 
 ---
+## CONTRIBUTORS
+1.[Tushar C Harihar](https://github.com/TushZ-269)
+
+2.[Prajwal V](https://github.com/Prajwal-gh)
+
+3.[Bhavani N](https://github.com/bhavaninagade)
+
+4.[Hemanth Kumar K](https://github.com/hemanth-kumar-k-18)
 
 ## 🤝 Contributing
 
@@ -121,11 +131,6 @@ Contributions are welcome!
 3. Commit your changes
 4. Open a pull request
 
----
-
-## 📄 License
-
-Add your preferred license here (MIT suggested).
 
 ---
 
