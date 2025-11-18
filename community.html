@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Policy2Profit — Community</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* Dark-mode palette only — layout untouched */
+      --bg-1: #041021;
+      --bg-2: #06162a;
+      --card: rgba(255,255,255,0.03);
+      --glass: rgba(255,255,255,0.025);
+      --glass-2: rgba(255,255,255,0.02);
+      --glass-3: rgba(255,255,255,0.01);
+      --accent: #00d4ff;
+      --accent-2: #6c7cff;
+      --muted: #9fb0c0;
+      --muted-2: #8398a8;
+      --text: #e7f0fb;
+      --chip-bg: rgba(255,255,255,0.02);
+      --border: rgba(255,255,255,0.03);
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{
+      margin:0;padding:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;
+      background: linear-gradient(180deg,var(--bg-1),var(--bg-2));
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    }
+
+    .wrap{max-width:1180px;margin:26px auto;padding:16px}
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+    .brand{display:flex;gap:14px;align-items:center}
+    .logo{width:64px;height:64px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#021224;font-size:18px;box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+    h1{margin:0;font-size:20px}
+    .lead{margin:0;color:var(--muted);font-size:13px}
+
+    .top-controls{display:flex;align-items:center;gap:12px}
+    .search{display:flex;align-items:center;gap:8px;background:linear-gradient(90deg,rgba(255,255,255,0.008),rgba(255,255,255,0.004));padding:8px;border-radius:12px;border:1px solid var(--border)}
+    .search input{background:transparent;border:none;outline:none;color:var(--text);width:260px}
+    .search input::placeholder{color:var(--muted-2)}
+
+    .layout{display:grid;grid-template-columns:300px 1fr 300px;gap:18px;align-items:start}
+
+    /* left */
+    .card{background:linear-gradient(180deg,var(--glass-2),var(--glass-3));border:1px solid var(--border);padding:16px;border-radius:14px}
+    .profile{display:flex;gap:12px;align-items:center}
+    .avatar{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,#ffb86b,#ff6bcb);display:flex;align-items:center;justify-content:center;font-weight:800;color:#081018}
+    .muted{color:var(--muted);font-size:13px}
+
+    .composer{margin-top:14px}
+    textarea{width:100%;min-height:90px;background:linear-gradient(180deg, rgba(255,255,255,0.008), rgba(255,255,255,0.005));border:1px dashed rgba(255,255,255,0.03);padding:10px;border-radius:10px;color:var(--text);resize:vertical}
+    textarea::placeholder{color:var(--muted-2)}
+    .composer .row{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}
+    /* composer selects styled */
+    .composer select{background:linear-gradient(90deg,#071827, rgba(255,255,255,0.006));border:1px solid rgba(255,255,255,0.03);color:var(--muted);padding:8px;border-radius:10px;min-width:120px}
+    .composer select.smallsel{min-width:140px}
+    .composer .row .spacer{flex:1 1 12px;min-width:12px}
+    .btn{background:linear-gradient(90deg,var(--accent),var(--accent-2));padding:10px 14px;border-radius:12px;border:none;color:#021224;font-weight:700;cursor:pointer}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+
+    .select-accent{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021224;border:none;padding:8px;border-radius:8px}
+
+    .filter-card{display:flex;flex-direction:column;gap:10px}
+    .filter-group{background:rgba(255,255,255,0.01);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
+    .filter-title{font-weight:700;margin-bottom:8px}
+    .filter-grid{display:flex;flex-wrap:wrap;gap:8px}
+    .flt-pill{padding:8px 10px;border-radius:999px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--muted);cursor:pointer}
+    .flt-pill.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021224;border-color:transparent}
+
+    /* center feed */
+    .feed-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+    .feed{display:flex;flex-direction:column;gap:14px} /* REVERTED: posts full width, original alignment */
+
+    .post{background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 6px 18px rgba(0,0,0,0.45)} /* REVERTED: removed max-width so it appears as original */
+    .post .top{display:flex;justify-content:space-between;gap:12px}
+    .user{display:flex;gap:12px;align-items:center}
+    .user .meta{display:flex;flex-direction:column}
+    .username{font-weight:700}
+    .tagline{font-size:12px;color:var(--muted)}
+    .post .text{margin:10px 0;color:#d8ecff;line-height:1.45}
+
+    .post .post-actions{display:flex;gap:8px;align-items:center}
+    .icon-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;border:none;background:transparent;color:var(--muted);cursor:pointer}
+    .icon-btn.liked{color:var(--accent)}
+
+    .comments{margin-top:10px;border-top:1px dashed rgba(255,255,255,0.03);padding-top:10px;display:flex;flex-direction:column;gap:8px}
+    .comment{display:flex;gap:8px;align-items:flex-start}
+    .comment .bubble{background:rgba(255,255,255,0.02);padding:8px;border-radius:10px;color:#d3e6f6}
+    .comment-form{display:flex;gap:8px;margin-top:6px}
+    .comment-form input{flex:1;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text)}
+
+    /* right */
+    .right .section{margin-bottom:12px}
+    .trend-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;background:rgba(255,255,255,0.015);border:1px solid rgba(255,255,255,0.02)}
+    .small{font-size:13px;color:var(--muted)}
+
+    .chip{padding:8px 10px;border-radius:10px;background:var(--chip-bg);border:1px solid rgba(255,255,255,0.02);color:var(--muted)}
+
+    /* footer */
+    footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* responsive */
+    @media (max-width:1000px){.layout{grid-template-columns:1fr;gap:12px}.right{display:none}}
+
+    /* subtle animations */
+    .post, .card{transition:transform .18s ease, box-shadow .18s ease}
+    .post:hover{transform:translateY(-6px)}
+
+    /* nice scrollbar for feed */
+    .feed::-webkit-scrollbar{height:8px;width:8px}
+    .feed::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.03);border-radius:8px}
+
+    /* alignment fixes */
+    .meta{display:flex;flex-direction:column;justify-content:center}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">P2P</div>
+        <div>
+          <h1>Policy2Profit — Community</h1>
+          <div class="lead">Discuss policy impacts and practical actions with fellow business owners</div>
+        </div>
+      </div>
+
+      <div class="top-controls">
+        <div class="search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 21L15.8 15.8" stroke="currentcolor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 19a8 8 0 100-16 8 8 0 000 16z" stroke="currentcolor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <input id="globalSearch" placeholder="Search posts, users, sectors...">
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <!-- LEFT -->
+      <aside>
+        <div class="card">
+          <div class="profile">
+            <div class="avatar">RN</div>
+            <div>
+              <div style="font-weight:800">Ravi Narayan</div>
+              <div class="small">Textile Manufacturer • 25 emp.</div>
+            </div>
+          </div>
+
+          <div class="composer">
+            <label class="small" style="margin-top:12px;color:var(--muted)">Share quick POV</label>
+            <textarea id="composerText" placeholder="e.g. New power rebate will reduce unit cost by ~8%..."></textarea>
+
+            <!-- selects on first row -->
+            <div class="row" style="margin-top:10px;">
+              <select id="composerState" class="smallsel">
+                <option value="Karnataka">Karnataka</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="All">All States</option>
+              </select>
+              <select id="composerSector">
+                <option value="Textiles">Textiles</option>
+                <option value="Agriculture">Agriculture</option>
+                <option value="Logistics">Logistics</option>
+                <option value="Food Retail">Food Retail</option>
+                <option value="Manufacturing">Manufacturing</option>
+                <option value="Services">Services</option>
+              </select>
+            </div>
+
+            <!-- Post & Reset moved below selects (separate row) -->
+            <div class="row" style="margin-top:10px; gap:10px;">
+              <button class="btn" id="postBtn" style="flex:1;">Post</button>
+              <button class="btn ghost" id="resetBtn" style="flex:1;">Reset</button>
+            </div>
+
+            <div class="small" style="margin-top:8px;color:var(--muted)">Tips: Tag the state & sector. Add short actionable points to get faster responses.</div>
+          </div>
+        </div>
+
+        <div style="height:14px"></div>
+
+        <div class="card filter-card">
+          <div style="display:flex;justify-content:space-between;align-items:center"><strong>Filters</strong><small class="small">(quick)</small></div>
+
+          <div class="filter-group">
+            <div class="filter-title">State</div>
+            <div class="filter-grid" id="statePills">
+              <button class="flt-pill active" data-val="Karnataka">Karnataka</button>
+              <button class="flt-pill active" data-val="Maharashtra">Maharashtra</button>
+              <button class="flt-pill" data-val="All">All States</button>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-title">Sector</div>
+            <div class="filter-grid" id="sectorPills">
+              <button class="flt-pill active" data-val="Textiles">Textiles</button>
+              <button class="flt-pill active" data-val="Agriculture">Agriculture</button>
+              <button class="flt-pill active" data-val="Logistics">Logistics</button>
+              <button class="flt-pill active" data-val="Food Retail">Food Retail</button>
+              <button class="flt-pill active" data-val="Manufacturing">Manufacturing</button>
+              <button class="flt-pill active" data-val="Services">Services</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- CENTER FEED -->
+      <main>
+        <div class="feed-header card">
+          <div style="display:flex;gap:12px;align-items:center"><strong>Community Feed</strong><div class="small">Active discussions — policy impacts & practical actions</div></div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <select id="sortSelect" class="select-accent">
+              <option value="new">Newest</option>
+              <option value="top">Top (likes)</option>
+            </select>
+            <button class="btn" id="refreshBtn">Refresh</button>
+          </div>
+        </div>
+
+        <div id="feed" class="feed">
+          <!-- posts loaded by JS -->
+        </div>
+
+        <div style="text-align:center;margin-top:14px"><button class="btn ghost" id="loadMore">Load more</button></div>
+      </main>
+
+      <!-- RIGHT -->
+      <aside class="right">
+        <div class="section card">
+          <strong>Trending Tags</strong>
+          <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:8px">
+            <div class="chip">#PowerTariff</div>
+            <div class="chip">#ColdStorage</div>
+            <div class="chip">#FreightCorridor</div>
+            <div class="chip">#LabelUpdate</div>
+            <div class="chip">#Subsidy</div>
+            <div class="chip">#Tender</div>
+          </div>
+        </div>
+
+        <div class="section card">
+          <strong>Top Contributors</strong>
+          <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+            <div class="trend-item"><div>PriyaAgro</div><div class="small">24 posts</div></div>
+            <div class="trend-item"><div>KarnatakaText</div><div class="small">18 posts</div></div>
+            <div class="trend-item"><div>IndRetail</div><div class="small">13 posts</div></div>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+
+    <footer>Policy2Profit Community</footer>
+  </div>
+
+  <script>
+    // --- Helper utilities ---
+    function uid(){return 'p_'+Math.random().toString(36).slice(2,9)}
+    function nowText(offset){
+      if(offset==='now') return 'now';
+      return offset;
+    }
+    function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+    // --- Seed data (6 posts) ---
+    const seed = [
+      {id:uid(),user:'PriyaAgro',name:'Priya Sharma',initials:'PS',state:'Maharashtra',sector:'Agriculture',time:'2h',text:'The recent state subsidy on cold storage could open sourcing channels for small mango exporters. Pooling resources for a shared cold room might reduce costs by 30%.',likes:24,comments:[{user:'RahulTrans',text:'Great idea — cooperatives can apply together.'},{user:'AnitaKR',text:'Need more details on subsidy documentation.'}]},
+      {id:uid(),user:'KarnatakaText',name:'Suresh K',initials:'SK',state:'Karnataka',sector:'Textiles',time:'5h',text:'New power tariff rebate for micro-manufacturers might cut production costs by ~8%. Re-evaluate pricing only after recalculating margins.',likes:41,comments:[{user:'Ravi_Mfg',text:'Can you share the government circular link?'},{user:'MeeraRetail',text:'If true, I will increase batch runs — thanks.'}]},
+      {id:uid(),user:'MahaLogix',name:'Rahul D',initials:'RD',state:'Maharashtra',sector:'Logistics',time:'1d',text:'A proposed freight corridor may shift lanes — carriers should assess tender windows and partner with 3PLs.',likes:18,comments:[{user:'Suresh K',text:'Any link to the tender timeline?'},{user:'PriyaAgro',text:'Could change cold-chain routing too.'}]},
+      {id:uid(),user:'IndRetail',name:'Meera P',initials:'MP',state:'Karnataka',sector:'Food Retail',time:'3d',text:'Food safety labelling specs updated — small brands must update labels by Q2. Co-packers can offer relabelling services.',likes:33,comments:[{user:'AnitaKR',text:'Local printers can help, agreed.'}]},
+      {id:uid(),user:'GreenPack',name:'Anita KR',initials:'AK',state:'Maharashtra',sector:'Manufacturing',time:'6h',text:'Packaging regulations tightening — manufacturers should audit suppliers for compliant materials to avoid penalties.',likes:21,comments:[{user:'Meera P',text:'Thanks Anita — can you recommend a lab?'},{user:'KarnatakaText',text:'We had similar issue last year.'}]},
+      {id:uid(),user:'FarmConnect',name:'Ramesh T',initials:'RT',state:'Karnataka',sector:'Agriculture',time:'12h',text:'Export duty relaxation might open new markets for local spices. Small exporters should coordinate shipments to cut costs.',likes:27,comments:[{user:'PriyaAgro',text:'Agree — need logistics partners.'}]}
+    ];
+
+    // Persistent store
+    let posts = JSON.parse(localStorage.getItem('p2p_posts_v2')||'null') || seed.slice();
+    const user = localStorage.getItem('p2p_user') || 'Ravi_Mfg';
+
+    // DOM refs
+    const feed = document.getElementById('feed');
+    const composerText = document.getElementById('composerText');
+    const composerState = document.getElementById('composerState');
+    const composerSector = document.getElementById('composerSector');
+    const postBtn = document.getElementById('postBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const globalSearch = document.getElementById('globalSearch');
+    const sortSelect = document.getElementById('sortSelect');
+    const refreshBtn = document.getElementById('refreshBtn');
+    const loadMoreBtn = document.getElementById('loadMore');
+    const statePills = document.getElementById('statePills');
+    const sectorPills = document.getElementById('sectorPills');
+
+    // active filters state
+    let activeStates = ['Karnataka','Maharashtra'];
+    let activeSectors = ['Textiles','Agriculture','Logistics','Food Retail','Manufacturing','Services'];
+
+    // render functions
+    function render(){
+      // search and sort
+      const q = (globalSearch.value||'').toLowerCase();
+      let list = posts.slice();
+      list = list.filter(p=> activeStates.includes(p.state) && activeSectors.includes(p.sector));
+      if(q) list = list.filter(p=> (p.text + p.user + p.name + p.state + p.sector).toLowerCase().includes(q));
+      if(sortSelect.value==='top') list.sort((a,b)=>b.likes-a.likes);
+      // Limit for demo
+      const limited = list.slice(0, 50);
+
+      feed.innerHTML = '';
+      limited.forEach(p=> feed.appendChild(createPostCard(p)));
+      localStorage.setItem('p2p_posts_v2', JSON.stringify(posts));
+    }
+
+    function createPostCard(p){
+      const el = document.createElement('div'); el.className='post'; el.dataset.id = p.id;
+      el.innerHTML = `
+        <div class="top">
+          <div class="user">
+            <div class="avatar" style="width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,#${colorFor(p.user)},#6c7cff);display:flex;align-items:center;justify-content:center;font-weight:700">${p.initials}</div>
+            <div class="meta">
+              <div class="username">${esc(p.name)} <span class="small">@${p.user}</span></div>
+              <div class="tagline">${p.sector} • ${p.state} • <span class="small">${p.time}</span></div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+            <div class="chip">Policy Insight</div>
+            <div style="font-size:12px;color:var(--muted)">Share • Collaborate</div>
+          </div>
+        </div>
+        <div class="text">${esc(p.text)}</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+          <div class="post-actions">
+            <button class="icon-btn likeBtn" data-id="${p.id}">❤ <span class="small">${p.likes}</span></button>
+            <button class="icon-btn commentToggle" data-id="${p.id}">💬 <span class="small">${p.comments.length}</span></button>
+            <button class="icon-btn shareBtn" data-id="${p.id}">🔗 Share</button>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            ${p.user===user?'<button class="icon-btn editBtn" data-id="'+p.id+'">✏️ Edit</button><button class="icon-btn delBtn" data-id="'+p.id+'">🗑️ Delete</button>':''}
+          </div>
+        </div>
+        <div class="comments" style="display:none"></div>
+      `;
+
+      // bind
+      el.querySelector('.likeBtn').addEventListener('click', ()=> toggleLike(p.id));
+      el.querySelector('.commentToggle').addEventListener('click', ()=> toggleComments(el,p.id));
+      el.querySelector('.shareBtn').addEventListener('click', ()=> sharePost(p.id));
+      if(el.querySelector('.editBtn')) el.querySelector('.editBtn').addEventListener('click', ()=> editPost(p.id));
+      if(el.querySelector('.delBtn')) el.querySelector('.delBtn').addEventListener('click', ()=> deletePost(p.id));
+
+      return el;
+    }
+
+    // actions
+    function toggleLike(id){
+      posts = posts.map(p=>{ if(p.id===id){ p._liked = !p._liked; p.likes += p._liked?1:-1 } return p }); render();
+    }
+
+    function toggleComments(cardEl,id){
+      const commentsEl = cardEl.querySelector('.comments');
+      if(commentsEl.style.display === 'none' || commentsEl.style.display === ''){
+        const post = posts.find(x=>x.id===id);
+        commentsEl.style.display='flex'; commentsEl.innerHTML='';
+        post.comments.forEach(c=>{
+          const cNode = document.createElement('div'); cNode.className='comment';
+          cNode.innerHTML = `<div class="avatar" style="width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#ffd89b,#19547b);display:flex;align-items:center;justify-content:center">${(c.user||'U').slice(0,2)}</div><div><div class="bubble">${esc(c.text)}</div><div class="small" style="margin-top:4px;color:var(--muted)">@${c.user||'anon'}</div></div>`;
+          commentsEl.appendChild(cNode);
+        });
+        // add comment input
+        const form = document.createElement('div'); form.className='comment-form';
+        form.innerHTML = `<input placeholder="Write a comment..."><button class="btn">Comment</button>`;
+        form.querySelector('button').addEventListener('click', ()=>{ const val = form.querySelector('input').value.trim(); if(!val) return alert('Write a comment'); posts = posts.map(p=>{ if(p.id===id) p.comments.push({user:user,text:val}); return p }); render(); });
+        commentsEl.appendChild(form);
+      } else { commentsEl.style.display='none' }
+    }
+
+    function sharePost(id){
+      const p = posts.find(x=>x.id===id);
+      const txt = `${p.name} (@${p.user}): ${p.text} 
+via Policy2Profit Community`;
+      if(navigator.share){ navigator.share({title:'Community Post',text:txt}).catch(()=>{}); }
+      else { copyToClipboard(txt); alert('Post copied to clipboard'); }
+    }
+
+    function copyToClipboard(s){ const ta=document.createElement('textarea'); ta.value=s; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); }
+
+    function editPost(id){
+      const post = posts.find(p=>p.id===id);
+      const newText = prompt('Edit your post text', post.text);
+      if(newText!=null){ posts = posts.map(p=> p.id===id? {...p,text:newText}:p ); render(); }
+    }
+    function deletePost(id){ if(confirm('Delete this post?')){ posts = posts.filter(p=>p.id!==id); render(); } }
+
+    // post composer
+    postBtn.addEventListener('click', ()=>{ const txt = composerText.value.trim(); if(!txt) return alert('Write a short POV'); const newP = {id:uid(), user:user, name:user.replace('_',' '), initials: user.split('_').map(a=>a[0]).slice(0,2).join(''), state:composerState.value, sector:composerSector.value, time:'now', text:txt, likes:0, comments:[] }; posts.unshift(newP); composerText.value=''; render(); });
+    resetBtn.addEventListener('click', ()=>{ composerText.value=''; composerState.value='Karnataka'; composerSector.value='Textiles' });
+
+    // pills filters
+    function setupPills(){
+      statePills.querySelectorAll('.flt-pill').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const v = btn.dataset.val;
+          if(v==='All'){
+            // toggle all
+            const allActive = Array.from(statePills.querySelectorAll('.flt-pill')).filter(b=>b.dataset.val!=='All').every(b=>b.classList.contains('active'));
+            statePills.querySelectorAll('.flt-pill').forEach(b=>{ if(b.dataset.val!=='All') b.classList.toggle('active', !allActive); b.classList.toggle('active', false); });
+            // ensure All pill reflects state
+            btn.classList.toggle('active', !allActive);
+          } else {
+            btn.classList.toggle('active');
+            // update All pill
+            const other = statePills.querySelector('.flt-pill[data-val="All"]');
+            const allActive = Array.from(statePills.querySelectorAll('.flt-pill')).filter(b=>b.dataset.val!=='All').every(b=>b.classList.contains('active'));
+            other.classList.toggle('active', allActive);
+          }
+          // compute activeStates
+          activeStates = Array.from(statePills.querySelectorAll('.flt-pill.active')).map(b=>b.dataset.val).filter(v=>v!=='All');
+          if(activeStates.length===0) activeStates=['Karnataka','Maharashtra'];
+          render();
+        });
+      });
+
+      sectorPills.querySelectorAll('.flt-pill').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          btn.classList.toggle('active');
+          activeSectors = Array.from(sectorPills.querySelectorAll('.flt-pill.active')).map(b=>b.dataset.val);
+          if(activeSectors.length===0) activeSectors=['Textiles','Agriculture','Logistics','Food Retail','Manufacturing','Services'];
+          render();
+        });
+      });
+    }
+
+    // filters and search
+    globalSearch.addEventListener('input', ()=> setTimeout(render,150));
+    sortSelect.addEventListener('change', render);
+    refreshBtn.addEventListener('click', ()=>{ alert('Feed refreshed'); render(); });
+    loadMoreBtn.addEventListener('click', ()=> alert('No more demo posts — in prod, this loads more'));
+
+    // color generator
+    function colorFor(s){ let h=0; for(let i=0;i<s.length;i++) h= s.charCodeAt(i) + ((h<<5)-h); const c = (h & 0x00FFFFFF).toString(16).toUpperCase(); return ('000000'+c).slice(-6); }
+
+    // initial setup
+    setupPills();
+    render();
+
+    // expose for debugging
+    window.P2P = {posts, render}
+  </script>
+</body>
+</html>

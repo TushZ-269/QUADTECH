@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Profitability Simulator</title>
+    <style>
+        /* Define the color palette */
+        :root {
+            --bg-card: rgba(15, 20, 40, 0.85); /* Semi-transparent dark blue card */
+            --bg-page: #0a0c1f; /* Dark page background as a fallback */
+            --primary-accent: #3498db; /* Bright blue for accents */
+            --secondary-accent: #2ecc71; /* Green for profit */
+            --negative-accent: #e74c3c; /* Red for loss */
+            --text-primary: #ffffff;
+            --text-secondary: #bdc3c7; /* Lighter gray for labels */
+            --border-color: rgba(52, 152, 219, 0.3); /* Faint blue border */
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            color: var(--text-primary);
+            line-height: 1.6;
+
+            /* --- USER-PROVIDED BACKGROUND IMAGE --- */
+            /* This file MUST be in the same folder as this HTML file */
+            background-image: url('stock-photo-glowing-blue-money-coins-graph-chart-background-332789261.jpg.webp');
+            
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            
+            /* Fallback background color */
+            background-color: var(--bg-page);
+            
+            /* Add a subtle overlay to the whole page to help text pop */
+            background-blend-mode: multiply;
+            background-color: rgba(0,0,0,0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            backdrop-filter: blur(10px); /* Blur the background for the main content area */
+            border-radius: 12px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: var(--text-primary);
+            text-shadow: 0 0 15px rgba(52, 152, 219, 0.5);
+            margin: 0;
+        }
+
+        /* --- 1. Results Dashboard --- */
+        .results-dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .result-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .result-card h3 {
+            margin-top: 0;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .result-card .value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 10px 0;
+            letter-spacing: 1px;
+        }
+        
+        /* Specific colors for the dashboard */
+        #baseline-profit, #baseline-roi {
+            color: var(--secondary-accent);
+        }
+        #simulated-profit, #simulated-roi {
+            color: var(--primary-accent);
+        }
+
+        #roi-impact {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .positive { color: var(--secondary-accent); }
+        .negative { color: var(--negative-accent); }
+        .neutral { color: var(--text-secondary); }
+
+
+        /* --- 2. Main Calculator Layout --- */
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .input-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .input-section h2 {
+            margin-top: 0;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--primary-accent);
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-group input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-sizing: border-box; /* Fixes padding issue */
+        }
+
+        /* --- 3. Simulation Sliders --- */
+        .simulation-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .simulation-section h2 {
+            margin-top: 0;
+            color: var(--primary-accent);
+            border-bottom: 2px solid var(--primary-accent);
+            padding-bottom: 10px;
+        }
+        
+        .slider-group {
+            margin-bottom: 25px;
+        }
+        
+        .slider-group label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        /* Output for the slider value */
+        .slider-group span {
+            color: var(--text-primary);
+            font-weight: 700;
+            background: rgba(0,0,0,0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            cursor: pointer;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+            .results-dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Real-time Profitability Simulator</h1>
+        </header>
+
+        <!-- 1. THE RESULTS DASHBOARD -->
+        <section class="results-dashboard">
+            <div class="result-card">
+                <h3>Baseline (Current)</h3>
+                <div class="value" id="baseline-profit">₹0</div>
+                <div class="value" id="baseline-roi">0.00%</div>
+                <span class="neutral">Profit / ROI</span>
+            </div>
+            <div class="result-card">
+                <h3>Simulated Scenario</h3>
+                <div class="value" id="simulated-profit">₹0</div>
+                <div class="value" id="simulated-roi">0.00%</div>
+                <span id="roi-impact" class="neutral">(No Change)</span>
+            </div>
+        </section>
+
+        <!-- 2. THE MAIN CALCULATOR -->
+        <main class="calculator-grid">
+            
+            <!-- LEFT COLUMN: YOUR BUSINESS INPUTS -->
+            <section class="input-section">
+                <h2>Your Business Inputs</h2>
+                <div class="form-group">
+                    <label for="income">Generated Income (Revenue)</label>
+                    <input type="number" id="income" placeholder="e.g., 500000" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="cost-production">Cost of Production (Labor, etc)</label>
+                    <input type="number" id="cost-production" placeholder="e.g., 120000" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="cost-raw">Cost of Raw Materials</label>
+                    <input type="number" id="cost-raw" placeholder="e.g., 200000" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="cost-transport">Transport Expenses</label>
+                    <input type="number" id="cost-transport" placeholder="e.g., 30000" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="cost-bills">Current Bill (Utilities, Rent)</label>
+                    <input type="number" id="cost-bills" placeholder="e.g., 25000" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="cost-other">Other Expenses</label>
+                    <input type="number" id="cost-other" placeholder="e.g., 10000" min="0">
+                </div>
+            </section>
+
+            <!-- RIGHT COLUMN: SIMULATION SLIDERS -->
+            <section class="simulation-section">
+                <h2>"What-If" Simulator</h2>
+                <p>Drag the sliders to see how a price rise affects your profit.</p>
+                
+                <div class="slider-group">
+                    <label for="sim-raw">Raw Material Cost Increase
+                        <span id="sim-raw-label">0%</span>
+                    </label>
+                    <input type="range" id="sim-raw" min="0" max="200" value="0" step="1">
+                </div>
+                
+                <div class="slider-group">
+                    <label for="sim-transport">Transport Cost Increase
+                        <span id="sim-transport-label">0%</span>
+                    </label>
+                    <input type="range" id="sim-transport" min="0" max="200" value="0" step="1">
+                </div>
+
+                <div class="slider-group">
+                    <label for="sim-production">Production Cost Increase
+                        <span id="sim-production-label">0%</span>
+                    </label>
+                    <input type="range" id="sim-production" min="0" max="200" value="0" step="1">
+                </div>
+
+                <div class="slider-group">
+                    <label for="sim-bills">Bills / Utilities Cost Increase
+                        <span id="sim-bills-label">0%</span>
+                    </label>
+                    <input type="range" id="sim-bills" min="0" max="200" value="0" step="1">
+                </div>
+
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 1. Get all Input Elements ---
+            const incomeEl = document.getElementById('income');
+            const costProductionEl = document.getElementById('cost-production');
+            const costRawEl = document.getElementById('cost-raw');
+            const costTransportEl = document.getElementById('cost-transport');
+            const costBillsEl = document.getElementById('cost-bills');
+            const costOtherEl = document.getElementById('cost-other');
+
+            // --- 2. Get all Simulator Sliders ---
+            const simRawEl = document.getElementById('sim-raw');
+            const simTransportEl = document.getElementById('sim-transport');
+            const simProductionEl = document.getElementById('sim-production');
+            const simBillsEl = document.getElementById('sim-bills');
+
+            // --- 3. Get all Slider Labels ---
+            const simRawLabel = document.getElementById('sim-raw-label');
+            const simTransportLabel = document.getElementById('sim-transport-label');
+            const simProductionLabel = document.getElementById('sim-production-label');
+            const simBillsLabel = document.getElementById('sim-bills-label');
+
+            // --- 4. Get all Output/Result Elements ---
+            const baselineProfitEl = document.getElementById('baseline-profit');
+            const baselineRoiEl = document.getElementById('baseline-roi');
+            const simulatedProfitEl = document.getElementById('simulated-profit');
+            const simulatedRoiEl = document.getElementById('simulated-roi');
+            const roiImpactEl = document.getElementById('roi-impact');
+
+            // --- 5. The Main Calculation Function ---
+            function calculate() {
+                // Get all base values
+                const income = parseFloat(incomeEl.value) || 0;
+                const costProduction = parseFloat(costProductionEl.value) || 0;
+                const costRaw = parseFloat(costRawEl.value) || 0;
+                const costTransport = parseFloat(costTransportEl.value) || 0;
+                const costBills = parseFloat(costBillsEl.value) || 0;
+                const costOther = parseFloat(costOtherEl.value) || 0;
+
+                // --- BASELINE CALCULATION ---
+                const totalCost = costProduction + costRaw + costTransport + costBills + costOther;
+                const netProfit = income - totalCost;
+                
+                // Calculate Profit-to-Investment Ratio (ROI)
+                // (Net Profit / Total Investment) * 100
+                const baselineROI = (totalCost === 0) ? 0 : (netProfit / totalCost) * 100;
+
+                // Update Baseline UI
+                baselineProfitEl.textContent = formatCurrency(netProfit);
+                baselineRoiEl.textContent = `${baselineROI.toFixed(2)}%`;
+                styleText(baselineProfitEl, netProfit);
+                styleText(baselineRoiEl, baselineROI);
+
+                // --- SIMULATION CALCULATION ---
+                
+                // Get slider percentages
+                const simRawPercent = parseFloat(simRawEl.value) / 100;
+                const simTransportPercent = parseFloat(simTransportEl.value) / 100;
+                const simProductionPercent = parseFloat(simProductionEl.value) / 100;
+                const simBillsPercent = parseFloat(simBillsEl.value) / 100;
+
+                // Update slider labels
+                simRawLabel.textContent = `${simRawEl.value}%`;
+                simTransportLabel.textContent = `${simTransportEl.value}%`;
+                simProductionLabel.textContent = `${simProductionEl.value}%`;
+                simBillsLabel.textContent = `${simBillsEl.value}%`;
+
+                // Calculate simulated costs
+                const simCostProduction = costProduction * (1 + simProductionPercent);
+                const simCostRaw = costRaw * (1 + simRawPercent);
+                const simCostTransport = costTransport * (1 + simTransportPercent);
+                const simCostBills = costBills * (1 + simBillsPercent);
+                // Other costs don't have a slider, so they stay the same
+                
+                const simTotalCost = simCostProduction + simCostRaw + simCostTransport + simCostBills + costOther;
+                const simNetProfit = income - simTotalCost;
+                const simulatedROI = (simTotalCost === 0) ? 0 : (simNetProfit / simTotalCost) * 100;
+
+                // Update Simulated UI
+                simulatedProfitEl.textContent = formatCurrency(simNetProfit);
+                simulatedRoiEl.textContent = `${simulatedROI.toFixed(2)}%`;
+                styleText(simulatedProfitEl, simNetProfit);
+                styleText(simulatedRoiEl, simulatedROI);
+
+                // --- IMPACT CALCULATION ---
+                const roiDifference = simulatedROI - baselineROI;
+                
+                if (roiDifference > 0.01) {
+                    roiImpactEl.textContent = `(↑ ${roiDifference.toFixed(2)}%)`;
+                    roiImpactEl.className = 'positive';
+                } else if (roiDifference < -0.01) {
+                    roiImpactEl.textContent = `(↓ ${Math.abs(roiDifference).toFixed(2)}%)`;
+                    roiImpactEl.className = 'negative';
+                } else {
+                    roiImpactEl.textContent = '(No Change)';
+                    roiImpactEl.className = 'neutral';
+                }
+            }
+
+            // --- 6. Helper Functions ---
+            
+            // Format numbers as Indian Rupees
+            function formatCurrency(num) {
+                return new Intl.NumberFormat('en-IN', {
+                    style: 'currency',
+                    currency: 'INR',
+                    maximumFractionDigits: 0
+                }).format(num);
+            }
+
+            // Set color based on value (positive/negative)
+            function styleText(element, value) {
+                if (value > 0) {
+                    element.style.color = 'var(--secondary-accent)';
+                } else if (value < 0) {
+                    element.style.color = 'var(--negative-accent)';
+                } else {
+                    element.style.color = 'var(--text-secondary)';
+                }
+            }
+
+            // --- 7. Event Listeners ---
+            // Create a list of all elements that should trigger a recalculation
+            const allInputs = [
+                incomeEl, costProductionEl, costRawEl, costTransportEl, costBillsEl, costOtherEl,
+                simRawEl, simTransportEl, simProductionEl, simBillsEl
+            ];
+
+            // Add one event listener to each element
+            // This makes it "real-time" - any change triggers calculate()
+            allInputs.forEach(el => {
+                el.addEventListener('input', calculate);
+            });
+
+            // Run the calculation once on load to set default values
+            calculate();
+        });
+    </script>
+</body>
+</html>

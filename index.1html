@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinSarthi - Your AI Financial Advisor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                FinSarthi
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active">
+                    <svg_icon>D</svg_icon> Dashboard
+                </a>
+                <a href="#" class="nav-item">
+                    <svg_icon>N</svg_icon> Regulatory Feed
+                </a>
+                <a href="#" class="nav-item">
+                    <svg_icon>G</svg_icon> My Goals
+                </a>
+                <a href="#" class="nav-item">
+                    <svg_icon>R</svg_icon> Reports
+                </a>
+                <a href="#" class="nav-item">
+                    <svg_icon>S</svg_icon> Settings
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Your Dashboard</h1>
+                <div class="user-profile">
+                    <strong>Prakash Metals Pvt. Ltd.</strong>
+                    <span>(Small Scale, Manufacturing, Pune, Maharashtra)</span>
+                </div>
+            </header>
+
+            <div class="dashboard-grid">
+                
+                <div class="card chart-card">
+                    <h3>Weekly Avg. Revenue</h3>
+                    <p class="chart-value">₹8,45,200</p>
+                    <span class="chart-trend positive">+5.2% vs. last week</span>
+                    <div class="chart-placeholder">[Chart showing weekly revenue trend]</div>
+                </div>
+
+                <div class="card chart-card">
+                    <h3>Weekly Avg. Cost</h3>
+                    <p class="chart-value">₹6,90,100</p>
+                    <span class="chart-trend negative">-1.8% vs. last week</span>
+                    <div class="chart-placeholder">[Chart showing weekly cost trend]</div>
+                </div>
+
+                <div class="card goal-card">
+                    <h3>Your Business Goals</h3>
+                    <div class="goal-item">
+                        <label>Achieve ₹10L Weekly Revenue</label>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 84.5%;"></div>
+                        </div>
+                        <span>84.5% Complete</span>
+                    </div>
+                    <div class="goal-item">
+                        <label>Reduce Material Costs by 3%</label>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 60%;"></div>
+                        </div>
+                        <span>60.0% Complete</span>
+                    </div>
+                    <button class="btn-secondary">Set New Goal</button>
+                </div>
+
+                <div class="card insights-card">
+                    <h3>Product Insights (Last 30 Days)</h3>
+                    <div class="insight-item">
+                        <strong>Most Sold Item:</strong>
+                        <span>Steel Flange (SKU: F-45B)</span>
+                    </div>
+                    <div class="insight-item">
+                        <strong>Product in Demand:</strong>
+                        <span>Brass Fittings (SKU: B-12)</span>
+                    </div>
+                    <div class="insight-item">
+                        <strong>Least Sold Product:</strong>
+                        <span>Copper Pipe (SKU: C-05)</span>
+                    </div>
+                </div>
+
+                <div class="card forecast-card">
+                    <h3>🔮 Future Expenditure Forecast</h3>
+                    <p>Based on new financial bills, your projected compliance costs are:</p>
+                    <div class="forecast-item">
+                        <strong>Karnataka Profession Tax Act</strong>
+                        <span>+ ₹1,200 (Annual)</span>
+                        <p>Projected increase in annual compliance cost due to the new ₹100/employee/year tax amendment.</p>
+                    </div>
+                    <a href="#">See Full Forecast Report</a>
+                </div>
+                
+                <div class="card feed-card">
+                    <h3>Your Personalized Regulatory Feed</h3>
+                    
+                    <div class="news-item">
+                        <div class="news-header">
+                            <h4>Maharashtra Startup Policy 2025 Approved</h4>
+                            <span class="news-source">Source: Govt. of Maharashtra</span>
+                        </div>
+                        <div class="news-tabs">
+                            <button class="tab-btn active" data-target="summary-1">Summary</button>
+                            <button class="tab-btn" data-target="impact-1">Impact Analysis</button>
+                            <button class="tab-btn" data-target="action-1">Action Steps</button>
+                        </div>
+                        <div class="news-content">
+                            <div id="summary-1" class="tab-content active">
+                                The state has launched the "Maharashtra Startup, Entrepreneurship and Innovation Policy 2025" with a ₹500-crore "Maha-Fund". The policy aims to support 50,000 startups and 1.25 lakh entrepreneurs over five years with subsidized loans and incubation support.
+                            </div>
+                            <div id="impact-1" class="tab-content">
+                                <strong>High Impact for You.</strong> As a Small Scale enterprise in Maharashtra, you may be eligible for new subsidized loans (3% interest) and grants for quality testing. This policy is designed to directly support businesses like yours for R&D and scaling up.
+                            </div>
+                            <div id="action-1" class="tab-content">
+                                <ol>
+                                    <li>Check eligibility for the new "Maha-Fund" for your planned expansion.</li>
+                                    <li>Review the policy for quality testing reimbursements (up to ₹5 lakh).</li>
+                                    <li>Contact your local DIC (District Industries Centre) for application details.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="news-item">
+                        <div class="news-header">
+                            <h4>Karnataka Profession Tax (Amendment) Act, 2025</h4>
+                            <span class="news-source">Source: gst.kar.nic.in</span>
+                        </div>
+                        <div class="news-tabs">
+                            <button class="tab-btn" data-target="summary-2">Summary</button>
+                            <button class="tab-btn" data-target="impact-2">Impact Analysis</button>
+                            <button class="tab-btn" data-target="action-2">Action Steps</button>
+                        </div>
+                        <div class="news-content">
+                             <div id="summary-2" class="tab-content">
+                                The state has amended the Profession Tax Act. The tax for salaried employees earning ₹25,000 or more is now ₹200 for 11 months and ₹300 for February, totaling ₹2,500/year. This is a ₹100 increase from the previous flat ₹200/month.
+                            </div>
+                            <div id="impact-2" class="tab-content">
+                                <strong>Direct Cost Impact.</strong> This directly increases your payroll compliance cost by ₹100 per eligible employee per year. This change is effective from April 1, 2025.
+                            </div>
+                            <div id="action-2" class="tab-content">
+                                <ol>
+                                    <li>Instruct your payroll department to update the PT deduction for February to ₹300.</li>
+                                    <li>Update your annual financial forecast to reflect this minor increase in compliance costs (as shown in the "Future Expenditure" card).</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Simple script for tab functionality in the news feed
+        document.querySelectorAll('.news-tabs').forEach(tabsContainer => {
+            tabsContainer.addEventListener('click', event => {
+                if (event.target.classList.contains('tab-btn')) {
+                    const newsItem = tabsContainer.closest('.news-item');
+                    
+                    // Deactivate all buttons and content in this news item
+                    newsItem.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                    newsItem.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+                    // Activate the clicked button
+                    event.target.classList.add('active');
+                    
+                    // Activate the corresponding content
+                    const targetId = event.target.getAttribute('data-target');
+                    newsItem.querySelector(`#${targetId}`).classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

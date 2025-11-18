@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Profitability Simulator</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Real-time Profitability Simulator</h1>
+        </header>
+
+        <section class="results-dashboard">
+             <div class="result-card">
+                <h3>Baseline (Current)</h3>
+                <div class="value" id="baseline-profit">₹0</div>
+                <div class="value" id="baseline-roi">0.00%</div>
+                <span class="neutral">Profit / ROI</span>
+            </div>
+            <div class="result-card">
+                <h3>Simulated Scenario</h3>
+                <div class="value" id="simulated-profit">₹0</div>
+                <div class="value" id="simulated-roi">0.00%</div>
+                <span id="roi-impact" class="neutral">(No Change)</span>
+            </div>
+        </section>
+
+        <div class="main-layout">
+            
+            <div class="calculator-container">
+                <main class="calculator-grid">
+                    <section class="input-section">
+                        <h2>Your Business Inputs</h2>
+                        <div class="form-group">
+                            <label for="product-name">Product Name</label>
+                            <input type="text" id="product-name" placeholder="e.g., Cotton T-Shirts">
+                        </div>
+                        <div class="form-group">
+                            <label for="income">Generated Income (Revenue)</label>
+                            <input type="number" id="income" placeholder="e.g., 500000" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="cost-production">Cost of Production (Labor, etc)</label>
+                            <input type="number" id="cost-production" placeholder="e.g., 120000" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="cost-raw">Cost of Raw Materials</label>
+                            <input type="number" id="cost-raw" placeholder="e.g., 200000" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="cost-transport">Transport Expenses</label>
+                            <input type="number" id="cost-transport" placeholder="e.g., 30000" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="cost-bills">Current Bill (Utilities, Rent)</label>
+                            <input type="number" id="cost-bills" placeholder="e.g., 25000" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="cost-other">Other Expenses</label>
+                            <input type="number" id="cost-other" placeholder="e.g., 10000" min="0">
+                        </div>
+                    </section>
+                    <section class="simulation-section">
+                        <h2>"What-If" Simulator</h2>
+                        <p>Drag the sliders to see how a price rise affects your profit.</p>
+                        <div class="slider-group">
+                            <label for="sim-raw">Raw Material Cost Increase
+                                <span id="sim-raw-label">0%</span>
+                            </label>
+                            <input type="range" id="sim-raw" min="0" max="200" value="0" step="1">
+                        </div>
+                        <div class="slider-group">
+                            <label for="sim-transport">Transport Cost Increase
+                                <span id="sim-transport-label">0%</span>
+                            </label>
+                            <input type="range" id="sim-transport" min="0" max="200" value="0" step="1">
+                        </div>
+                        <div class="slider-group">
+                            <label for="sim-production">Production Cost Increase
+                                <span id="sim-production-label">0%</span>
+                            </label>
+                            <input type="range" id="sim-production" min="0" max="200" value="0" step="1">
+                        </div>
+                        <div class="slider-group">
+                            <label for="sim-bills">Bills / Utilities Cost Increase
+                                <span id="sim-bills-label">0%</span>
+                            </label>
+                            <input type="range" id="sim-bills" min="0" max="200" value="0" step="1">
+                        </div>
+                    </section>
+                </main>
+            </div>
+
+            <aside class="news-section" id="news-feed">
+                <h2>Live Data for: <span id="news-product-name">...</span></h2>
+                
+                <div id="news-content">
+                    <p>Enter a product name to see live data.</p>
+                </div>
+
+            </aside>
+            </div>
+    </div>
+
+    <div class="advice-popup" id="advice-popup">
+        <span class="advice-popup-close" id="advice-close-btn">&times;</span>
+        <h4>AI Advisor</h4>
+        <p>Your <strong>Cost of Production</strong> seems high. Review your labor costs and overtime hours to improve your profit margin.</p>
+        <p>Consider bulk-buying raw materials to lock in prices against inflation.</p>
+    </div>
+
+    <script src="script2.js"></script>
+</body>
+</html>

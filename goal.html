@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Goal Calculator</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind to use Inter font -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-sans bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <!-- Calculator Card -->
+    <div class="w-full max-w-lg bg-white rounded-xl shadow-lg p-8 transition-all">
+        
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Asset Goal Calculator</h1>
+            <p class="text-gray-600 mt-2">Find out the asset value you can afford based on the 2/10 income rule.</p>
+        </div>
+
+        <!-- Input Form -->
+        <div class="space-y-6">
+            
+            <!-- Monthly Income Input -->
+            <div>
+                <label for="income" class="block text-sm font-medium text-gray-700 mb-2">
+                    Your Total Monthly Income
+                </label>
+                <div class="relative rounded-lg shadow-sm">
+                    <div class="pointer-events-none absolute inset-y-0 left-0 pl-4 flex items-center">
+                        <!-- Heroicon: bank-notes -->
+                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M1 4a1 1 0 011-1h16a1 1 0 011 1v8a1 1 0 01-1 1H2a1 1 0 01-1-1V4zm12 4a3 3 0 11-6 0 3 3 0 016 0zM4 9a1 1 0 100-2 1 1 0 000 2zm13-1a1 1 0 11-2 0 1 1 0 012 0zM1.5 16a.5.5 0 01.5-.5h16a.5.5 0 010 1H2a.5.5 0 01-.5-.5z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <input type="number" id="income" placeholder="e.g., 5000" class="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                </div>
+            </div>
+
+            <!-- Interest Rate Input -->
+            <div>
+                <label for="rate" class="block text-sm font-medium text-gray-700 mb-2">
+                    Annual Interest Rate (%)
+                </label>
+                <div class="relative rounded-lg shadow-sm">
+                    <div class="pointer-events-none absolute inset-y-0 left-0 pl-4 flex items-center">
+                        <!-- Heroicon: receipt-percent -->
+                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M5 2a.5.5 0 01.5.5v1.282A6.974 6.974 0 0110 3c2.48 0 4.7.7 6.44 1.895a.5.5 0 01.44 0C18.29 5.6 19 6.22 19 7v6c0 .78-.71 1.4-2.12 2.105a.5.5 0 01-.44 0A17.15 17.15 0 0110 16a17.15 17.15 0 01-6.44-1.895a.5.5 0 01-.44 0C1.71 13.4 1 12.78 1 12V7c0-.78.71-1.4 2.12-2.105a.5.5 0 01.44 0A6.974 6.974 0 015 3.782V2.5a.5.5 0 01.5-.5zM10 5a5 5 0 00-4.54 2.924.5.5 0 01-.92 0A6 6 0 0110 4a6 6 0 015.46 3.076.5.5 0 01-.92 0A5 5 0 0010 5zm0 10a5 5 0 004.54-2.924.5.5 0 01.92 0A6 6 0 0110 16a6 6 0 01-5.46-3.076.5.5 0 01.92 0A5 5 0 0010 15zM7 9a1 1 0 112 0 1 1 0 01-2 0zm6 0a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <input type="number" id="rate" placeholder="e.g., 7.5" step="0.1" class="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                </div>
+            </div>
+
+            <!-- Loan Tenure Input -->
+            <div>
+                <label for="tenure" class="block text-sm font-medium text-gray-700 mb-2">
+                    Loan Tenure (Years)
+                </label>
+                <div class="relative rounded-lg shadow-sm">
+                    <div class="pointer-events-none absolute inset-y-0 left-0 pl-4 flex items-center">
+                        <!-- Heroicon: calendar-days -->
+                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M5.75 3a.75.75 0 01.75.75v.25h7V3.75a.75.75 0 011.5 0v.25h.75a2.75 2.75 0 012.75 2.75v9.5a2.75 2.75 0 01-2.75 2.75H4.75A2.75 2.75 0 012 16.25v-9.5A2.75 2.75 0 014.75 4h.75V3.75A.75.75 0 015.75 3zM4.5 7.5c0-.138.112-.25.25-.25h10.5a.25.25 0 01.25.25v8.5a.25.25 0 01-.25.25H4.75a.25.25 0 01-.25-.25v-8.5z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <input type="number" id="tenure" placeholder="e.g., 20" class="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                </div>
+            </div>
+
+            <!-- Calculate Button -->
+            <button id="calculateBtn" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-transform duration-300 active:scale-95">
+                Calculate My Goal
+            </button>
+
+            <!-- Error Message Area -->
+            <div id="error" class="hidden text-center text-red-600 font-medium p-3 bg-red-50 rounded-lg"></div>
+
+        </div>
+
+        <!-- Results Section (Initially Hidden) -->
+        <div id="results" class="hidden mt-8 p-6 bg-blue-50 rounded-lg border border-blue-200">
+            <div class="text-center">
+                <p class="text-sm font-medium text-blue-700">Based on the 2/10 Rule, your max affordable EMI is:</p>
+                <p id="emiResult" class="text-3xl font-bold text-blue-900 my-2">$0.00</p>
+                <p class="text-xs text-gray-500 mb-6">(20% of your monthly income)</p>
+            </div>
+            
+            <hr class="border-blue-200 my-6">
+
+            <div class="text-center">
+                <p class="text-lg font-medium text-gray-800">You can afford a maximum asset loan of:</p>
+                <p id="loanResult" class="text-5xl font-extrabold text-blue-600 my-3">$0.00</p>
+            </div>
+
+            <!-- Disclaimer -->
+            <p class="text-xs text-gray-500 mt-6 text-center">
+                *This is an estimate. It does not include down payments, taxes, insurance, or other fees. Please consult a financial advisor.
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        // Get elements from the DOM
+        const incomeInput = document.getElementById('income');
+        const rateInput = document.getElementById('rate');
+        const tenureInput = document.getElementById('tenure');
+        const calculateBtn = document.getElementById('calculateBtn');
+        const errorDiv = document.getElementById('error');
+        const resultsDiv = document.getElementById('results');
+        const emiResult = document.getElementById('emiResult');
+        const loanResult = document.getElementById('loanResult');
+
+        // Add click event listener to the button
+        calculateBtn.addEventListener('click', () => {
+            // Get and parse input values
+            const income = parseFloat(incomeInput.value);
+            const annualRate = parseFloat(rateInput.value);
+            const tenureYears = parseFloat(tenureInput.value);
+
+            // --- 1. Validation ---
+            if (isNaN(income) || income <= 0 ||
+                isNaN(annualRate) || annualRate < 0 || // Allow 0% interest
+                isNaN(tenureYears) || tenureYears <= 0) {
+                
+                errorDiv.textContent = 'Please fill in all fields with valid, positive numbers.';
+                errorDiv.classList.remove('hidden');
+                resultsDiv.classList.add('hidden');
+                return; // Stop execution
+            }
+
+            // Clear error and show results
+            errorDiv.classList.add('hidden');
+            resultsDiv.classList.remove('hidden');
+
+            // --- 2. Calculate Max EMI (The 2/10 Rule) ---
+            const maxEMI = income * 0.20; // 2/10 = 0.20
+
+            // --- 3. Calculate Max Loan Amount (Principal) ---
+            // We need to solve the EMI formula for P (Principal)
+            // P = EMI * [ (1+r)^n - 1 ] / [ r * (1+r)^n ]
+            // Where:
+            // P = Principal loan amount
+            // EMI = Max Affordable EMI
+            // r = monthly interest rate
+            // n = number of months
+            
+            const monthlyRate = (annualRate / 100) / 12;
+            const numberOfMonths = tenureYears * 12;
+            
+            let maxLoan;
+
+            // Edge case: If interest rate is 0%
+            if (monthlyRate === 0) {
+                maxLoan = maxEMI * numberOfMonths;
+            } else {
+                // Standard EMI formula reversed for P
+                const numerator = Math.pow(1 + monthlyRate, numberOfMonths) - 1;
+                const denominator = monthlyRate * Math.pow(1 + monthlyRate, numberOfMonths);
+                maxLoan = maxEMI * (numerator / denominator);
+            }
+
+            // --- 4. Display Results ---
+            
+            // Format numbers as currency
+            const currencyFormatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            });
+
+            emiResult.textContent = `${currencyFormatter.format(maxEMI)}`;
+            loanResult.textContent = `${currencyFormatter.format(maxLoan)}`;
+        });
+    </script>
+
+</body>
+</html>
